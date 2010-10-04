@@ -10,6 +10,7 @@ begin
     gem.email = "michael@mullistechnologies.com"
     gem.homepage = "http://github.com/mmullis/ffi-uuid"
     gem.authors = ["Michael Mullis"]
+    gem.add_dependency 'ffi', ">= 0.6.3"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
