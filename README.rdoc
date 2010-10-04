@@ -1,6 +1,6 @@
 = ffi-uuid
 
-Description goes here.
+FFI Wrapper for libuuid. Access to the basic functions is provided as well as extra helpers to make usage friendlier.
 
 == Note on Patches/Pull Requests
  

@@ -5,8 +5,8 @@ begin
   require 'jeweler'
   Jeweler::Tasks.new do |gem|
     gem.name = "ffi-uuid"
-    gem.summary = %Q{TODO: one-line summary of your gem}
-    gem.description = %Q{TODO: longer description of your gem}
+    gem.summary = %Q{FFI Wrapper for libuuidm}
+    gem.description = %Q{FFI Wrapper for libuuid with extra helpers for common UUID tasks like getting an array of uuids for quicker distribution}
     gem.email = "michael@mullistechnologies.com"
     gem.homepage = "http://github.com/mmullis/ffi-uuid"
     gem.authors = ["Michael Mullis"]
