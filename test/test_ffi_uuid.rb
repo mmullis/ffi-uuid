@@ -4,13 +4,13 @@ class TestFfiUuid < Test::Unit::TestCase
   def test_parse_unparse
     binary_uuid = " " * 16
     FFI::UUID.uuid_generate_random(binary_uuid)
-    puts "binary_uuid: #{binary_uuid.inspect}"
+    #puts "binary_uuid: #{binary_uuid.inspect}"
     unparsed_uuid = " " * 36   # 32 hex chars plus 4 dashes
     FFI::UUID.uuid_unparse(binary_uuid, unparsed_uuid)  # unparsed is the formatted hex string
-    puts "unparsed_uuid: #{unparsed_uuid.inspect}"
+    #puts "unparsed_uuid: #{unparsed_uuid.inspect}"
     parsed_uuid = ' ' * 16
     FFI::UUID.uuid_parse(unparsed_uuid, parsed_uuid)  # parsed is the binary version
-    puts "parsed_uuid: #{parsed_uuid.inspect}"
+    #puts "parsed_uuid: #{parsed_uuid.inspect}"
     assert_equal( binary_uuid, parsed_uuid)
   end
 
