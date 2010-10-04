@@ -6,11 +6,12 @@ require 'ffi'
 
 class FFI::UUID
   extend FFI::Library
- 
+
   # load our custom C library and attach
   # FFI functions to our Ruby runtime
-  ffi_lib "libuuid"
- 
+  # unfortunately, linux doesnt set libsuid.so 
+  ffi_lib(["uuid", "libuuid", "libuuid.so", "libuuid.so.1"])
+
   functions = [
     # method # parameters        # return
     [:uuid_generate_random, [:pointer], :void],
@@ -32,7 +33,7 @@ class FFI::UUID
     [:uuid_unparse_lower, [:pointer, :pointer], :void],
     [:uuid_unparse_upper, [:pointer, :pointer], :void],
   ]
- 
+
   functions.each do |func|
     begin
       attach_function(*func)
@@ -75,17 +76,16 @@ class FFI::UUID
   # defaults to the :random algorightm
   # algorithm=:time will switch to the less desirable/secure time based method
   def self.get_uuids(num=1, algorithm=:random)
-    uuids = Array.new(num) # preallocate to avoid expansion 
+    uuids = Array.new(num) # preallocate to avoid expansion
     num.times { |i|
       result = case algorithm
       when :time
         generate_time
       else
         generate_random
-      end      
+      end
       uuids[i-1] = result
     }
     uuids
   end
 end
-
