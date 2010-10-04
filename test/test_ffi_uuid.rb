@@ -19,7 +19,6 @@ class TestFfiUuid < Test::Unit::TestCase
    sample_uuid = nil
    num_uuids = 100000
    1.times {
-    begin
     sample_uuid = FFI::UUID.get_uuids(num_uuids)
     assert sample_uuid.length == num_uuids
     assert sample_uuid.is_a?(Array)
@@ -29,13 +28,6 @@ class TestFfiUuid < Test::Unit::TestCase
     
     assert_equal( 36, unparsed.length)
     assert_equal(unparsed.split(/\-/).length, 5)
-    rescue Exception => ex
-      p sample_uuid
-      p unparsed 
-      p ex
-      p ex.backtrace
-      raise ex
-    end
     }
   end
 end
