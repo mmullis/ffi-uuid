@@ -13,21 +13,24 @@ class FFI::UUID
  
   functions = [
     # method # parameters        # return
-    [:uuid_generate_random, [:string], :void],
-    [:uuid_generate_time,   [:string], :void],
+    [:uuid_generate_random, [:pointer], :void],
+    [:uuid_generate_time,   [:pointer], :void],
 
     # these are not really necessary and havent' been tested
-    #[:uuid_generate,        [:string], :void],
+    [:uuid_generate,        [:pointer], :void],
     #[:uuid_clear, [:string], :void],
     #[:uuid_compare, [:string, :string], :int],
     #[:uuid_copy, [:string, :string], :void],
 
     #[:uuid_is_null, [:string], :bool],
-    #[:uuid_parse,   [:string, :string], :void],
 
-    #[:uuid_unparse, [:string, :string], :void],
-    #[:uuid_unparse_lower, [:string, :string], :void],
-    #[:uuid_unparse_upper, [:string, :string], :void],
+    # convertion formatted hex string to binary
+    [:uuid_parse,   [:pointer, :pointer], :void],
+
+    # convert binary to formatted hex string
+    [:uuid_unparse, [:pointer, :pointer], :void],
+    [:uuid_unparse_lower, [:pointer, :pointer], :void],
+    [:uuid_unparse_upper, [:pointer, :pointer], :void],
   ]
  
   functions.each do |func|
@@ -38,20 +41,49 @@ class FFI::UUID
     end
   end
 
+  def self.generate(algorithm=:random)
+    binary_uuid = " " * 16
+    formatted_result = " " * 36  # 32 hex chars + 4 dashes
+    case algorithm
+    when :time
+      FFI::UUID.uuid_generate_time(binary_uuid)
+    else
+      FFI::UUID.uuid_generate_random(binary_uuid)
+    end
+    ##puts "BINARY_UUID #{binary_uuid.bytes.to_a.inspect}"
+
+    FFI::UUID.uuid_unparse(binary_uuid, formatted_result)
+    formatted_result    # manual/slower/ruby way .unpack("H*")[0]
+  end
+
+  def self.generate_random
+    generate(:random)
+  end
+
+  def self.generate_time
+    generate(:time)
+  end
+
+  def self.unparse(binary_uuid)
+    raise "UUID unparsed required non-nil input" if binary_uuid.nil? || binary_uuid.empty?
+    formatted_uuid = " " * 36
+    FFI::UUID.uuid_unparse(binary_uuid, formatted_uuid)
+    formatted_uuid
+  end
+
   # get a set of uuids - useful for server/backend apps that need a lot
   # defaults to the :random algorightm
   # algorithm=:time will switch to the less desirable/secure time based method
   def self.get_uuids(num=1, algorithm=:random)
     uuids = Array.new(num) # preallocate to avoid expansion 
     num.times { |i|
-      result = ' ' * 16  # allocate 16 bytes for uuid_t
-      case algorithm
+      result = case algorithm
       when :time
-        FFI::UUID.uuid_generate_time(result)
+        generate_time
       else
-        FFI::UUID.uuid_generate_random(result)
+        generate_random
       end      
-      uuids[i-1] = (result.unpack("H*")[0])
+      uuids[i-1] = result
     }
     uuids
   end
