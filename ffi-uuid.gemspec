@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
      "README.rdoc",
      "Rakefile",
      "VERSION",
+     "ffi-uuid.gemspec",
      "lib/ffi-uuid.rb",
      "lib/ffi/ffi_uuid_impl.rb",
      "test/helper.rb",
