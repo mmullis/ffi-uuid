@@ -1,7 +1,7 @@
 require 'rubygems'
 require 'ffi'
 
-# uuid_generate_xxx take uuid_t which is a 16 byte unsigned char
+# uuid_generate_xxx takex uuid_t which is a 16 byte unsigned char
 # that is directly updated - treat like a bang! method
 
 class FFI::UUID
@@ -9,8 +9,17 @@ class FFI::UUID
 
   # load our custom C library and attach
   # FFI functions to our Ruby runtime
-  # unfortunately, linux doesnt set libsuid.so 
-  ffi_lib(["uuid", "libuuid", "libuuid.so", "libuuid.so.1"])
+  # unfortunately, linux doesnt set libsuid.so
+  # MAC OS X Notes:
+  #   libSystem.B supports Mac OS X without other packages.
+  #   It's useful if libuuid is not installed from a ports or fink package.
+  #   libSystem.B is listed last so that a libuuid installed will get picked up first.
+  #   To get libuuid picked up, 
+  #     export DYLD_FALLBACK_LIBRARY_PATH=<location of libuuid>
+  #    e.g
+  #      export DYLD_FALLBACK_LIBRARY_PATH=/opt/local/lib:/usr/lib
+
+  ffi_lib(["uuid", "libuuid", "libuuid.so", "libuuid.so.1", "libSystem.B"])
 
   functions = [
     # method # parameters        # return

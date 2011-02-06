@@ -3,7 +3,6 @@
 FFI Wrapper for libuuid. Access to the basic functions is provided as well as extra helpers to make usage friendlier.
 
 == Note on Patches/Pull Requests
- 
 * Fork the project.
 * Make your feature addition or bug fix.
 * Add tests for it. This is important so I don't break it in a
@@ -12,6 +11,14 @@ FFI Wrapper for libuuid. Access to the basic functions is provided as well as ex
   (if you want to have your own version, that is fine but bump version in a commit by itself I can ignore when I pull)
 * Send me a pull request. Bonus points for topic branches.
 
+== Contributors
+  Michael Mullis
+  textserv (via blog comment)
+
+== License
+
+ffi-uuid uses the MIT license. Please check the LICENSE file for more details.
+
 == Copyright
 
-Copyright (c) 2010 Michael Mullis. See LICENSE for details.
+Copyright (c) 2010-2011 Michael Mullis. See LICENSE for details.
