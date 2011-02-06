@@ -17,15 +17,15 @@ class TestFfiUuid < Test::Unit::TestCase
   def test_get_uuid
    unparsed = nil
    sample_uuid = nil
-   num_uuids = 100000
+   num_uuids = 100_000
    1.times {
     sample_uuid = FFI::UUID.get_uuids(num_uuids)
     assert sample_uuid.length == num_uuids
     assert sample_uuid.is_a?(Array)
     assert_equal(36, sample_uuid[0].length)
-    
+
     unparsed = FFI::UUID.unparse(sample_uuid[0])
-    
+
     assert_equal( 36, unparsed.length)
     assert_equal(unparsed.split(/\-/).length, 5)
     }
