@@ -14,7 +14,7 @@ class FFI::UUID
   #   libSystem.B supports Mac OS X without other packages.
   #   It's useful if libuuid is not installed from a ports or fink package.
   #   libSystem.B is listed last so that a libuuid installed will get picked up first.
-  #   To get libuuid picked up, 
+  #   To get libuuid picked up,
   #     export DYLD_FALLBACK_LIBRARY_PATH=<location of libuuid>
   #    e.g
   #      export DYLD_FALLBACK_LIBRARY_PATH=/opt/local/lib:/usr/lib
@@ -72,6 +72,13 @@ class FFI::UUID
 
   def self.generate_time
     generate(:time)
+  end
+
+  def self.parse(uuid)
+    raise 'UUID parse requries non-nil input' if uuid.nil? || uuid.empty?
+    binary_uuid = ' ' * 16
+    FFI::UUID.uuid_parse(uuid, binary_uuid)
+    binary_uuid
   end
 
   def self.unparse(binary_uuid)
